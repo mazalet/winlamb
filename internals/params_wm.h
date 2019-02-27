@@ -44,23 +44,23 @@ namespace wm {
 		bool activated_by_mouse_click() const noexcept     { return this->wParam == WA_CLICKACTIVE; }
 		HWND swapped_window() const noexcept               { return reinterpret_cast<HWND>(this->lParam); }
 	};
-	struct activateapp : public params {
-		activateapp(const params& p) noexcept : params(p) { }
+	struct activate_app : public params {
+		activate_app(const params& p) noexcept : params(p) { }
 		bool  is_being_activated() const noexcept { return this->wParam != FALSE; }
 		DWORD thread_id() const noexcept          { return static_cast<DWORD>(this->lParam); }
 	};
-	struct askcbformatname : public params {
-		askcbformatname(const params& p) noexcept : params(p) { }
+	struct ask_cb_formatname : public params {
+		ask_cb_format_name(const params& p) noexcept : params(p) { }
 		UINT     szbuffer() const noexcept { return static_cast<UINT>(this->wParam); }
 		wchar_t* buffer() const noexcept   { return reinterpret_cast<wchar_t*>(this->lParam); }
 	};
-	WINLAMB_EMPTYWM(cancelmode);
-	struct capturechanged : public params {
-		capturechanged(const params& p) noexcept : params(p) { }
+	WINLAMB_EMPTYWM(cancel_mode);
+	struct capture_changed : public params {
+		capture_changed(const params& p) noexcept : params(p) { }
 		HWND window_gaining_mouse() const noexcept { return reinterpret_cast<HWND>(this->lParam); }
 	};
-	struct changecbchain : public params {
-		changecbchain(const params& p) noexcept : params(p) { }
+	struct change_cb_chain : public params {
+		change_cb_chain(const params& p) noexcept : params(p) { }
 		HWND window_being_removed() const noexcept { return reinterpret_cast<HWND>(this->wParam); }
 		HWND next_window() const noexcept          { return reinterpret_cast<HWND>(this->lParam); }
 		bool is_last_window() const noexcept       { return this->next_window() == nullptr; }
@@ -75,30 +75,30 @@ namespace wm {
 		bool key_previously_down() const noexcept { return (this->lParam >> 30) & 1; }
 		bool key_being_released() const noexcept  { return (this->lParam >> 31) & 1; }
 	};
-	struct chartoitem : public params {
-		chartoitem(const params& p) noexcept : params(p) { }
+	struct char_to_item : public params {
+		char_to_item(const params& p) noexcept : params(p) { }
 		WORD char_code() const noexcept         { return LOWORD(this->wParam); }
 		WORD current_caret_pos() const noexcept { return HIWORD(this->wParam); }
 		HWND hlistbox() const noexcept          { return reinterpret_cast<HWND>(this->lParam); }
 	};
-	WINLAMB_EMPTYWM(childactivate);
+	WINLAMB_EMPTYWM(child_activate);
 	WINLAMB_EMPTYWM(close);
 	struct compacting : public params {
 		compacting(const params& p) noexcept : params(p) { }
 		UINT cpu_time_ratio() const noexcept { return static_cast<UINT>(this->wParam); }
 	};
-	struct compareitem : public params {
-		compareitem(const params& p) noexcept : params(p) { }
+	struct compare_item : public params {
+		compare_item(const params& p) noexcept : params(p) { }
 		WORD               control_id() const noexcept        { return static_cast<WORD>(this->wParam); }
 		COMPAREITEMSTRUCT& compareitemstruct() const noexcept { return *reinterpret_cast<COMPAREITEMSTRUCT*>(this->lParam); }
 	};
-	struct contextmenu : public params {
-		contextmenu(const params& p) noexcept : params(p) { }
+	struct context_menu : public params {
+		context_menu(const params& p) noexcept : params(p) { }
 		HWND  target() const noexcept { return reinterpret_cast<HWND>(this->wParam); }
 		POINT pos() const noexcept    { return {GET_X_LPARAM(this->lParam), GET_Y_LPARAM(this->lParam)}; }
 	};
-	struct copydata : public params {
-		copydata(const params& p) noexcept : params(p) { }
+	struct copy_data : public params {
+		copy_data(const params& p) noexcept : params(p) { }
 		COPYDATASTRUCT& copydatastruct() const noexcept { return *reinterpret_cast<COPYDATASTRUCT*>(this->lParam); }
 	};
 	struct create : public params {
@@ -106,19 +106,19 @@ namespace wm {
 		CREATESTRUCT& createstruct() const noexcept { return *reinterpret_cast<CREATESTRUCT*>(this->lParam); }
 	};
 
-	struct ctlcolorbtn : public params {
-		ctlcolorbtn(const params& p) noexcept : params(p) { }
+	struct ctl_color_btn : public params {
+		ctl_color_btn(const params& p) noexcept : params(p) { }
 		HDC  hdc() const noexcept  { return reinterpret_cast<HDC>(this->wParam); }
 		HWND hctl() const noexcept { return reinterpret_cast<HWND>(this->lParam); }
 	};
-	struct ctlcolordlg       : public ctlcolorbtn { ctlcolordlg(const params& p) noexcept       : ctlcolorbtn(p) { } };
-	struct ctlcoloredit      : public ctlcolorbtn { ctlcoloredit(const params& p) noexcept      : ctlcolorbtn(p) { } };
-	struct ctlcolorlistbox   : public ctlcolorbtn { ctlcolorlistbox(const params& p) noexcept   : ctlcolorbtn(p) { } };
-	struct ctlcolorscrollbar : public ctlcolorbtn { ctlcolorscrollbar(const params& p) noexcept : ctlcolorbtn(p) { } };
-	struct ctlcolorstatic    : public ctlcolorbtn { ctlcolorstatic(const params& p) noexcept    : ctlcolorbtn(p) { } };
+	struct ctl_color_dlg       : public ctl_color_btn { ctl_color_dlg(const params& p) noexcept       : ctl_color_btn(p) { } };
+	struct ctl_color_edit      : public ctl_color_btn { ctl_color_edit(const params& p) noexcept      : ctl_color_btn(p) { } };
+	struct ctl_color_listbox   : public ctl_color_btn { ctl_color_listbox(const params& p) noexcept   : ctl_color_btn(p) { } };
+	struct ctl_color_scrollbar : public ctl_color_btn { ctl_color_scrollbar(const params& p) noexcept : ctl_color_btn(p) { } };
+	struct ctl_color_static    : public ctl_color_btn { ctl_color_static(const params& p) noexcept    : ctl_color_btn(p) { } };
 
-	struct deadchar : public params {
-		deadchar(const params& p) noexcept : params(p) { }
+	struct dead_char : public params {
+		dead_char(const params& p) noexcept : params(p) { }
 		WORD char_code() const noexcept           { return static_cast<WORD>(this->wParam); }
 		WORD repeat_count() const noexcept        { return LOWORD(this->lParam); }
 		BYTE scan_code() const noexcept           { return LOBYTE(HIWORD(this->lParam)); }
@@ -127,21 +127,21 @@ namespace wm {
 		bool key_previously_down() const noexcept { return (this->lParam >> 30) & 1; }
 		bool key_being_released() const noexcept  { return (this->lParam >> 31) & 1; }
 	};
-	struct deleteitem : public params {
-		deleteitem(const params& p) noexcept : params(p) { }
+	struct delete_item : public params {
+		delete_item(const params& p) noexcept : params(p) { }
 		WORD              control_id() const noexcept       { return static_cast<WORD>(this->wParam); }
 		DELETEITEMSTRUCT& deleteitemstruct() const noexcept { return *reinterpret_cast<DELETEITEMSTRUCT*>(this->lParam); }
 	};
 	WINLAMB_EMPTYWM(destroy);
-	WINLAMB_EMPTYWM(destroyclipboard);
-	struct devmodechange : public params {
-		devmodechange(const params& p) noexcept : params(p) { }
+	WINLAMB_EMPTYWM(destroy_clipboard);
+	struct dev_mode_change : public params {
+		dev_mode_change(const params& p) noexcept : params(p) { }
 		const wchar_t* device_name() const noexcept { return reinterpret_cast<const wchar_t*>(this->lParam); }
 	};
 
 #ifdef _DBT_H // Ras.h
-	struct devicechange : public params {
-		devicechange(const params& p) noexcept : params(p) { }
+	struct device_change : public params {
+		device_change(const params& p) noexcept : params(p) { }
 		UINT                           event() const noexcept                         { return static_cast<UINT>(this->wParam); }
 		DEV_BROADCAST_HDR&             dev_broadcast_hdr() const noexcept             { return *reinterpret_cast<DEV_BROADCAST_HDR*>(this->lParam); }
 		DEV_BROADCAST_DEVICEINTERFACE& dev_broadcast_deviceinterface() const noexcept { return *reinterpret_cast<DEV_BROADCAST_DEVICEINTERFACE*>(this->lParam); }
@@ -152,20 +152,20 @@ namespace wm {
 	};
 #endif
 
-	struct displaychange : public params {
-		displaychange(const params& p) noexcept : params(p) { }
+	struct display_change : public params {
+		display_change(const params& p) noexcept : params(p) { }
 		UINT bits_per_pixel() const noexcept { return static_cast<UINT>(this->wParam); }
 		SIZE sz() const noexcept             { return {LOWORD(this->lParam), HIWORD(this->lParam)}; }
 	};
-	WINLAMB_EMPTYWM(drawclipboard);
-	struct drawitem : public params {
-		drawitem(const params& p) noexcept : params(p) { }
+	WINLAMB_EMPTYWM(draw_clipboard);
+	struct draw_item : public params {
+		draw_item(const params& p) noexcept : params(p) { }
 		WORD            control_id() const noexcept     { return static_cast<WORD>(this->wParam); }
 		bool            is_from_menu() const noexcept   { return this->control_id() == 0; }
 		DRAWITEMSTRUCT& drawitemstruct() const noexcept { return *reinterpret_cast<DRAWITEMSTRUCT*>(this->lParam); }
 	};
-	struct dropfiles : public params {
-		dropfiles(const params& p) noexcept : params(p) { }
+	struct drop_files : public params {
+		drop_files(const params& p) noexcept : params(p) { }
 		HDROP hdrop() const noexcept { return reinterpret_cast<HDROP>(this->wParam); }
 		UINT  count() const noexcept { return DragQueryFileW(this->hdrop(), 0xFFFFFFFF, nullptr, 0); }
 		std::vector<std::wstring> files() const {
@@ -190,26 +190,26 @@ namespace wm {
 		enable(const params& p) noexcept : params(p) { }
 		bool has_been_enabled() const { return this->wParam != FALSE; }
 	};
-	struct endsession : public params {
-		endsession(const params& p) noexcept : params(p) { }
+	struct end_session : public params {
+		end_session(const params& p) noexcept : params(p) { }
 		bool is_session_being_ended() const noexcept { return this->wParam != FALSE; }
 		bool is_system_issue() const noexcept        { return (this->lParam & ENDSESSION_CLOSEAPP) != 0; }
 		bool is_forced_critical() const noexcept     { return (this->lParam & ENDSESSION_CRITICAL) != 0; }
 		bool is_logoff() const noexcept              { return (this->lParam & ENDSESSION_LOGOFF) != 0; }
 		bool is_shutdown() const noexcept            { return this->lParam == 0; }
 	};
-	struct enteridle : public params {
-		enteridle(const params& p) noexcept : params(p) { }
+	struct enter_idle : public params {
+		enter_idle(const params& p) noexcept : params(p) { }
 		bool is_menu_displayed() const noexcept { return this->wParam == MSGF_MENU; }
 		HWND hwindow() const noexcept           { return reinterpret_cast<HWND>(this->lParam); }
 	};
-	struct entermenuloop : public params {
-		entermenuloop(const params& p) noexcept : params(p) { }
+	struct enter_menu_loop : public params {
+		enter_menu_loop(const params& p) noexcept : params(p) { }
 		bool uses_trackpopupmenu() const noexcept { return this->wParam != FALSE; }
 	};
-	WINLAMB_EMPTYWM(entersizemove);
-	struct erasebkgnd : public params {
-		erasebkgnd(const params& p) noexcept : params(p) { }
+	WINLAMB_EMPTYWM(enter_size_move);
+	struct erase_bkgnd : public params {
+		erase_bkgnd(const params& p) noexcept : params(p) { }
 		HDC hdc() const noexcept { return reinterpret_cast<HDC>(this->wParam); }
 	};
 	struct exitmenuloop : public params {

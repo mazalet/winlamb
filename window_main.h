@@ -7,11 +7,11 @@
 
 #pragma once
 #include "internals/base_loop.h"
-#include "internals/base_msg_impl.h"
 #include "internals/base_scroll.h"
 #include "internals/base_text_impl.h"
 #include "internals/base_thread_impl.h"
 #include "internals/base_window.h"
+#include "internals/base_wm_handlers.h"
 #include "internals/run.h"
 #include "internals/styler.h"
 #include "wnd.h"
@@ -22,7 +22,6 @@ namespace wli { class dialog_modeless; } // friend forward declaration
 // Inherit from this class to have an ordinary main window for your application.
 class window_main :
 	public wnd,
-	public wli::base_msg_impl<LRESULT>,
 	public wli::base_thread_impl<LRESULT, 0>,
 	public wli::base_text_impl<window_main>
 {
@@ -44,6 +43,9 @@ private:
 public:
 	// Defines window creation parameters.
 	setup_vars setup;
+
+	// Adds lambda handlers to the messages.
+	base_wm_handlers<LRESULT> on{_baseMsg};
 
 	// Wraps window style changes done by Get/SetWindowLongPtr.
 	wli::styler<window_main> style{this};
